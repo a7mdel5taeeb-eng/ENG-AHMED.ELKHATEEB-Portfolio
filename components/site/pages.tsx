@@ -212,34 +212,95 @@ export function ExperiencePage({ ict }: { ict?: string }) {
 
 /* ─── Profile ──────────────────────────────────────────────────────────────── */
 
-export function ProfilePage() {
+/** Portrait plate: framed photo with a caption strip, like a printed profile card. */
+export function PortraitPlate({ portrait, className }: { portrait: string; className?: string }) {
+  const { l } = useLanguage()
+  return (
+    <figure className={cn("overflow-hidden rounded-2xl border border-border bg-card", className)}>
+      <ImageReveal className="aspect-[4/5]">
+        <Image src={portrait} alt={`${l(person.name)} — ${l(person.role)}`} fill sizes="(min-width: 1024px) 440px, 100vw" className="object-cover object-[50%_18%]" />
+      </ImageReveal>
+      <figcaption className="flex items-end justify-between gap-4 border-t border-border px-6 py-5">
+        <span>
+          <span className="block font-display text-xl font-light tracking-tight">{l(person.name)}</span>
+          <span className="mt-1 block text-xs text-muted-foreground">{l(person.role)}</span>
+        </span>
+        <span className="eyebrow shrink-0 !text-[10px]">{l(person.location)}</span>
+      </figcaption>
+    </figure>
+  )
+}
+
+/** Wipes a photo into view (curtain + gentle settle) the first time it is on screen. */
+export function ImageReveal({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("relative overflow-hidden bg-plate", className)}>
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1.14, filter: "blur(8px)" }}
+        whileInView={{ scale: 1, filter: "blur(0px)" }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 bg-plate"
+        initial={{ y: "0%" }}
+        whileInView={{ y: "-101%" }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+      />
+    </div>
+  )
+}
+
+export function ProfilePage({ portrait }: { portrait?: string }) {
   const { l } = useLanguage()
   const p = pages.profile
+  const principlesCard = (
+    <Reveal delay={0.06}>
+      <div className="h-full rounded-2xl border border-border bg-card p-6">
+        <p className="eyebrow">{l(principles.title)}</p>
+        <ol className="mt-5 space-y-5">
+          {principles.items.map(([title, text], i) => (
+            <li key={title.en} className="flex gap-4">
+              <span className="font-mono text-[11px] text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
+              <span>
+                <span className="block text-sm">{l(title)}</span>
+                <span className="block text-xs text-muted-foreground">{l(text)}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </Reveal>
+  )
   return (
     <>
       <PageHero eyebrow={p.eyebrow} title={p.title} description={p.description} />
       <section className="px-6 pb-12 pt-12 md:px-12">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 lg:grid-cols-2">
-          <div>
-            <AtAGlance withValue={false} />
-          </div>
-          <Reveal delay={0.06}>
-            <div className="h-full rounded-2xl border border-border bg-card p-6">
-              <p className="eyebrow">{l(principles.title)}</p>
-              <ol className="mt-5 space-y-5">
-                {principles.items.map(([title, text], i) => (
-                  <li key={title.en} className="flex gap-4">
-                    <span className="font-mono text-[11px] text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-                    <span>
-                      <span className="block text-sm">{l(title)}</span>
-                      <span className="block text-xs text-muted-foreground">{l(text)}</span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
+        {portrait ? (
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 lg:grid-cols-[0.85fr_1.15fr]">
+            <Reveal>
+              <PortraitPlate portrait={portrait} />
+            </Reveal>
+            <div className="flex flex-col gap-3">
+              <div>
+                <AtAGlance withValue={false} />
+              </div>
+              {principlesCard}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        ) : (
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 lg:grid-cols-2">
+            <div>
+              <AtAGlance withValue={false} />
+            </div>
+            {principlesCard}
+          </div>
+        )}
       </section>
       <Section id="credentials">
         <SectionHead anim="badge" tag={credentialsHead.tag} title={credentialsHead.title} description={credentialsHead.description} />

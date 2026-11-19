@@ -40,13 +40,15 @@ The site uses a calm editorial design: warm paper background, IBM Plex / Inter T
 | Home sections | `components/site/sections.tsx` |
 | Inner pages (Disciplines, Experience, Profile, Contact) | `components/site/pages.tsx` |
 
-**Photos** — drop these files into `public/images/` (`.webp`, `.jpg`, `.png` or `.avif`) and they appear at the next build; until then a drawn visual stands in:
+**Photos** live in `public/images/` and are picked up automatically by base name (`.webp`, `.jpg`, `.png` or `.avif`):
 
 | File name | Used in |
 |:--|:--|
-| `ahmed-portrait` | Hero circle and Contact page |
-| `ahmed-matrix` | Dark "Services" feature panel |
-| `ict` | Current-role card (home and Experience page) |
+| `ahmed-portrait` | Hero arch portrait, Profile page plate, Contact page |
+| `ahmed-matrix` | "The choice" cinematic section on the home page |
+| `ict` (optional) | Current-role card — a drawn animation shows until it is added |
+
+The share image (Open Graph) is generated at build time by `app/opengraph-image.tsx` from `assets/og-portrait.jpg`.
 
 ## 🧠 Architecture at a glance
 

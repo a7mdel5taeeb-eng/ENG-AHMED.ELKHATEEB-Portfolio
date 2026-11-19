@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { ProfilePage } from "@/components/site/pages"
 import { CtaBand, FaqSection } from "@/components/site/sections"
+import { getMedia } from "@/lib/media"
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -8,9 +9,10 @@ export const metadata: Metadata = {
 }
 
 export default function NotesPage() {
+  const media = getMedia()
   return (
     <>
-      <ProfilePage />
+      <ProfilePage portrait={media.portrait} />
       <FaqSection />
       <CtaBand />
     </>

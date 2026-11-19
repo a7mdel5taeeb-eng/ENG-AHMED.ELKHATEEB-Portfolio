@@ -60,6 +60,8 @@ export const hero = {
     status: b("Open to new conversations", "متاح لمحادثات جديدة"),
     timezone: b("Saudi Arabia · GMT+3", "السعودية · ‎+3 غرينتش"),
   },
+  caption: b("Head of Computer Department", "رئيس قسم الحاسب الآلي"),
+  scroll: b("Scroll", "مرّر"),
   ring: b("SOFTWARE ✦ WEB ✦ AI EDUCATION ✦ IT SYSTEMS ✦ NETWORKING ✦ ", "البرمجيات ✦ الويب ✦ تعليم الذكاء الاصطناعي ✦ أنظمة التقنية ✦ الشبكات ✦ "),
 }
 
@@ -230,6 +232,31 @@ export const services = {
     { icon: "support", title: b("Technical support & maintenance", "الدعم الفني والصيانة"), text: b("Diagnosis, repair and upkeep that keep devices and people productive.", "تشخيص وإصلاح وصيانة دورية تحافظ على إنتاجية الأجهزة والفرق.") },
     { icon: "network", title: b("Networking & consultation", "الشبكات والاستشارات"), text: b("Reliable networks and honest advice on what to buy, build or skip.", "شبكات موثوقة ونصيحة صادقة حول ما يستحق الشراء أو البناء أو التجاوز.") },
   ] as const,
+}
+
+/* ─── The choice (cinematic band) ──────────────────────────────────────────── */
+
+export const choice = {
+  tag: b("The choice", "الاختيار"),
+  title: b("Every project starts\nwith a choice.", "كل مشروع\nيبدأ باختيار."),
+  body: b(
+    "Stay comfortable with what you have, or see how far the right technology can take you. I make the options clear — the decision stays yours.",
+    "أن تبقى مع ما اعتدت عليه، أو أن ترى إلى أي مدى يمكن أن تأخذك التقنية المناسبة. أوضّح لك الخيارات بجلاء — ويبقى القرار لك.",
+  ),
+  options: [
+    {
+      tone: "blue",
+      label: b("Stay as you are", "أن تبقى كما أنت"),
+      text: b("Workarounds, manual routines and systems nobody fully understands.", "حلول مؤقتة، ومهام يدوية متكررة، وأنظمة لا يفهمها أحد بالكامل."),
+    },
+    {
+      tone: "red",
+      label: b("See what's possible", "أن ترى ما هو ممكن"),
+      text: b("Clear systems, practical software and people who know how to use them.", "أنظمة واضحة، وبرمجيات عملية، وفريق يعرف كيف يستخدمها."),
+    },
+  ] as const,
+  cta: b("Take the first step", "اتخذ الخطوة الأولى"),
+  alt: b("Ahmed Elkhateeb holding out a red pill and a blue pill", "أحمد الخطيب يمدّ يديه بحبة حمراء وأخرى زرقاء"),
 }
 
 /* ─── Process ──────────────────────────────────────────────────────────────── */
@@ -509,6 +536,7 @@ export const footer = {
   connect: b("Connect", "تواصل"),
   home: b("Home", "الرئيسية"),
   rights: b("All rights reserved.", "جميع الحقوق محفوظة."),
+  wordmark: "ELKHATEEB",
   tagline: b("Computer & Software Engineer · Saudi Arabia", "مهندس حاسب وبرمجيات · المملكة العربية السعودية"),
   top: b("Back to top", "العودة للأعلى"),
 }

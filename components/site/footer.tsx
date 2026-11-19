@@ -5,6 +5,7 @@ import { ArrowUp, ArrowUpRight, Mail, Phone } from "lucide-react"
 import { Wordmark } from "./header"
 import { GitHubIcon, WhatsAppIcon } from "@/components/brand/icons"
 import { useLanguage } from "@/components/language-provider"
+import { Reveal } from "@/components/ui/reveal"
 import { contact, disciplines, footer, nav, person, waLink } from "@/lib/content"
 
 export function SocialLinks({ className = "" }: { className?: string }) {
@@ -119,6 +120,11 @@ export function Footer() {
             </a>
           </div>
         </div>
+      </div>
+      <div aria-hidden className="pointer-events-none select-none overflow-hidden" dir="ltr">
+        <Reveal y={80}>
+          <p className="wordmark -mb-[0.16em] text-center font-display text-[clamp(4.5rem,17.2vw,17rem)] font-light leading-[0.9] tracking-[-0.05em]">{footer.wordmark}</p>
+        </Reveal>
       </div>
     </footer>
   )

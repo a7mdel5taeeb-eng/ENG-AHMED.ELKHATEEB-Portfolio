@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     description: "Software, education and IT systems — one engineer across code, classroom and infrastructure.",
     siteName: "Ahmed Elkhateeb",
   },
-  twitter: { card: "summary", title: "Ahmed Elkhateeb — Computer & Software Engineer", description: "Turning ideas into real solutions." },
+  twitter: { card: "summary_large_image", title: "Ahmed Elkhateeb — Computer & Software Engineer", description: "Turning ideas into real solutions." },
   icons: { icon: "/portfolio-icon.svg" },
   manifest: "/site.webmanifest",
   robots: { index: true, follow: true },

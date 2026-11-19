@@ -236,47 +236,86 @@ export function useSaudiTime() {
   return time
 }
 
-export function HeroVisual({ portrait, className }: { portrait?: string; className?: string }) {
+function StatusBadge({ className, delay }: { className?: string; delay: number }) {
   const { l } = useLanguage()
-  const time = useSaudiTime()
   return (
-    <div className={cn("relative mx-auto aspect-square w-full max-w-[560px]", className)}>
-      <EngravedRing className="animate-orb-rotate absolute inset-0 size-full" />
-      <div className="absolute inset-[10.5%] overflow-hidden rounded-full border border-border bg-plate">
-        {portrait ? (
-          <>
-            <Image
-              src={portrait}
-              alt={`${l(person.name)} — ${l(person.role)}`}
-              fill
-              priority
-              sizes="(min-width: 1024px) 460px, 80vw"
-              className="object-cover object-[50%_30%]"
-            />
-            <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_0_0_1px_rgb(0_0_0/0.06),inset_0_-60px_80px_-40px_rgb(0_0_0/0.35)]" />
-          </>
-        ) : (
-          <>
-            <div className="bg-grid absolute inset-0 opacity-70 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
-            <DotGlobe className="absolute inset-[3%] !w-[94%]" />
-          </>
-        )}
-      </div>
-
-      <div className="hero-stagger absolute start-0 top-[8%] opacity-0 sm:-start-4" style={{ animation: "fade-up 0.8s cubic-bezier(0.16,1,0.3,1) 1.3s forwards" }}>
-        <div className="animate-float-soft flex items-center gap-2 rounded-full border border-border bg-background/85 px-3.5 py-2 text-xs shadow-[var(--shadow-lift)] backdrop-blur-md">
-          <span className="size-1.5 animate-pulse-dot rounded-full bg-success" />
-          {l(hero.badges.status)}
-        </div>
-      </div>
-      <div className="hero-stagger absolute bottom-[9%] end-0 opacity-0 sm:-end-2" style={{ animation: "fade-up 0.8s cubic-bezier(0.16,1,0.3,1) 1.45s forwards" }}>
-        <div className="animate-float-soft rounded-2xl border border-border bg-background/85 px-4 py-3 shadow-[var(--shadow-lift)] backdrop-blur-md [animation-delay:1.2s]">
-          <p className="eyebrow !text-[10px]">{l(person.location)}</p>
-          <p className="mt-1 font-mono text-xs" dir="ltr">
-            {time ? `${time} · ` : ""}GMT+3
-          </p>
-        </div>
+    <div className={cn("hero-stagger absolute z-20 opacity-0", className)} style={{ animation: `fade-up 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s forwards` }}>
+      <div className="animate-float-soft flex items-center gap-2 rounded-full border border-border bg-background/85 px-3.5 py-2 text-xs shadow-[var(--shadow-lift)] backdrop-blur-md">
+        <span className="size-1.5 animate-pulse-dot rounded-full bg-success" />
+        {l(hero.badges.status)}
       </div>
     </div>
   )
 }
+
+function TimeBadge({ className, delay }: { className?: string; delay: number }) {
+  const { l } = useLanguage()
+  const time = useSaudiTime()
+  return (
+    <div className={cn("hero-stagger absolute z-20 opacity-0", className)} style={{ animation: `fade-up 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s forwards` }}>
+      <div className="animate-float-soft rounded-2xl border border-border bg-background/85 px-4 py-3 shadow-[var(--shadow-lift)] backdrop-blur-md [animation-delay:1.2s]">
+        <p className="eyebrow !text-[10px]">{l(person.location)}</p>
+        <p className="mt-1 font-mono text-xs" dir="ltr">
+          {time ? `${time} · ` : ""}GMT+3
+        </p>
+      </div>
+    </div>
+  )
+}
+
+/** Portrait in an arched editorial frame, haloed by the rotating engraved ring. */
+function PortraitVisual({ portrait, className }: { portrait: string; className?: string }) {
+  const { l } = useLanguage()
+  return (
+    <div className={cn("relative mx-auto w-full max-w-[480px]", className)}>
+      <div className="relative aspect-[4/5]">
+        <div className="pointer-events-none absolute left-1/2 top-[-5%] aspect-square w-[112%] -translate-x-1/2">
+          <EngravedRing className="animate-orb-rotate size-full" />
+        </div>
+        <figure className="absolute inset-x-[9%] bottom-0 top-[7%] isolate overflow-hidden [border-radius:50%_50%_2rem_2rem/35.3%_35.3%_2rem_2rem] bg-plate shadow-[0_50px_90px_-45px_rgb(0_0_0/0.55)]">
+          <Image
+            src={portrait}
+            alt={`${l(person.name)} — ${l(person.role)}`}
+            fill
+            priority
+            sizes="(min-width: 1024px) 400px, 82vw"
+            className="hero-photo-img object-cover object-[50%_18%]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgb(0_0_0/0.62)_0%,rgb(0_0_0/0.18)_30%,transparent_52%)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08)]" />
+          <figcaption className="hero-stagger absolute inset-x-0 bottom-0 p-6 text-white opacity-0 sm:p-7" style={{ animation: "fade-up 0.9s cubic-bezier(0.16,1,0.3,1) 1.25s forwards" }}>
+            <span className="block font-display text-xl font-light tracking-tight sm:text-2xl">{l(person.name)}</span>
+            <span className="mt-1.5 flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/70">
+              <span className="h-px w-5 bg-white/50" />
+              {l(hero.caption)}
+            </span>
+          </figcaption>
+          <div className="hero-photo-curtain pointer-events-none absolute inset-0 bg-plate" />
+        </figure>
+        <StatusBadge className="start-[-2%] top-[3%] sm:start-[-6%] sm:top-[22%]" delay={1.4} />
+        <TimeBadge className="end-[-2%] top-[46%] sm:end-[-8%]" delay={1.55} />
+      </div>
+    </div>
+  )
+}
+
+/** Fallback without a portrait: live dot globe inside the engraved ring. */
+function GlobeVisual({ className }: { className?: string }) {
+  return (
+    <div className={cn("relative mx-auto aspect-square w-full max-w-[560px]", className)}>
+      <EngravedRing className="animate-orb-rotate absolute inset-0 size-full" />
+      <div className="absolute inset-[10.5%] overflow-hidden rounded-full border border-border bg-plate">
+        <div className="bg-grid absolute inset-0 opacity-70 [mask-image:radial-gradient(circle,black,transparent_70%)]" />
+        <DotGlobe className="absolute inset-[3%] !w-[94%]" />
+      </div>
+      <StatusBadge className="start-0 top-[8%] sm:-start-4" delay={1.3} />
+      <TimeBadge className="bottom-[9%] end-0 sm:-end-2" delay={1.45} />
+    </div>
+  )
+}
+
+export function HeroVisual({ portrait, className }: { portrait?: string; className?: string }) {
+  return portrait ? <PortraitVisual portrait={portrait} className={className} /> : <GlobeVisual className={className} />
+}
+
+export { DotGlobe }

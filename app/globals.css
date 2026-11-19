@@ -361,3 +361,70 @@ html[lang="ar"] .hero-word {
     color: var(--foreground);
   }
 }
+
+/* ── Premium layer ────────────────────────────────────────────────────────── */
+
+/* Smooth scrolling (Lenis) */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Film grain over the whole page — static, very faint */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.dark .grain { opacity: 0.06; }
+
+/* Rolling label on hover (parent needs .group) */
+.roll {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: top;
+  padding-block: 0.18em;
+  margin-block: -0.18em;
+}
+.roll > span {
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.roll > span + span {
+  position: absolute;
+  inset: 0.18em 0 auto 0;
+  transform: translateY(120%);
+}
+.group:hover .roll > span:first-child,
+.group:focus-visible .roll > span:first-child { transform: translateY(-120%); }
+.group:hover .roll > span + span,
+.group:focus-visible .roll > span + span { transform: translateY(0); }
+
+/* Hero portrait: curtain lifts, photo settles */
+@keyframes curtain-up { from { transform: translateY(0); } to { transform: translateY(-101%); } }
+@keyframes photo-in { from { transform: scale(1.16); filter: blur(10px); } to { transform: scale(1); filter: blur(0); } }
+.hero-photo-curtain { animation: curtain-up 1.3s cubic-bezier(0.76, 0, 0.24, 1) 0.2s forwards; }
+.hero-photo-img { animation: photo-in 1.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+html[data-intro="playing"] .hero-photo-curtain,
+html[data-intro="playing"] .hero-photo-img { animation-play-state: paused; }
+
+/* Scroll cue under the hero */
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(220%); }
+}
+.scroll-cue-line { animation: scroll-cue 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+
+/* Giant footer wordmark */
+.wordmark {
+  background-image: linear-gradient(to bottom, rgb(var(--ink-rgb) / 0.13), rgb(var(--ink-rgb) / 0.015) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

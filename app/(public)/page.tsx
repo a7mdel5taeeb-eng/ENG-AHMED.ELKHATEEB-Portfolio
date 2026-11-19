@@ -1,5 +1,6 @@
 import {
   AboutSection,
+  ChoiceSection,
   ContactSection,
   CredentialsSection,
   CtaBand,
@@ -38,7 +39,8 @@ export default function HomePage() {
       <Marquee />
       <AboutSection />
       <DisciplinesSection />
-      <ServicesSection matrix={media.matrix} />
+      <ServicesSection />
+      <ChoiceSection matrix={media.matrix} />
       <ProcessSection />
       <ExperienceSection ict={media.ict} />
       <CredentialsSection />

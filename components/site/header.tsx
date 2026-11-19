@@ -10,6 +10,7 @@ import { nav, hero, person, contact, waLink } from "@/lib/content"
 import { LanguageSwitch, useLanguage } from "@/components/language-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Monogram, WhatsAppIcon } from "@/components/brand/icons"
+import { RollText } from "@/components/ui/premium"
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -86,9 +87,9 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className={cn("text-sm transition-colors hover:text-foreground", isActive(item.href) ? "text-foreground" : "text-muted-foreground")}
+                  className={cn("group text-sm transition-colors hover:text-foreground", isActive(item.href) ? "text-foreground" : "text-muted-foreground")}
                 >
-                  {l(item.label)}
+                  <RollText>{l(item.label)}</RollText>
                   <span className="ms-1 font-mono text-[11px] opacity-50">({item.n})</span>
                 </Link>
               ))}
@@ -96,8 +97,8 @@ export function Header() {
             <div className={cn("hidden items-center gap-3 transition-opacity duration-300 lg:flex", ready ? "opacity-100" : "opacity-0")}>
               <LanguageSwitch />
               <ThemeToggle />
-              <Link href="/contact" className="ms-2 inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-85">
-                {l(hero.primary)}
+              <Link href="/contact" className="group ms-2 inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-[opacity,transform] duration-300 hover:opacity-90 active:scale-[0.98]">
+                <RollText>{l(hero.primary)}</RollText>
               </Link>
             </div>
             <button

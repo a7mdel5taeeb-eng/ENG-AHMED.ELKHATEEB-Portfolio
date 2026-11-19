@@ -13,7 +13,7 @@ export default function WorkbenchPage() {
   return (
     <>
       <ExperiencePage ict={media.ict} />
-      <ServicesSection matrix={media.matrix} />
+      <ServicesSection />
       <CtaBand />
     </>
   )

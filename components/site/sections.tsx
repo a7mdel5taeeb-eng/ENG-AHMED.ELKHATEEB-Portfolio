@@ -26,6 +26,7 @@ import { PixelAnim, type PixelScene } from "./pixel-anim"
 import { StackingDisciplines } from "./stacking"
 import { FaqList } from "./faq"
 import { Reveal } from "@/components/ui/reveal"
+import { CountUp, Parallax, RollText } from "@/components/ui/premium"
 import { SpotlightCard } from "@/components/ui/card"
 import { Tag } from "@/components/ui/tag"
 import { GitHubIcon, WhatsAppIcon } from "@/components/brand/icons"
@@ -34,6 +35,7 @@ import { cn } from "@/lib/utils"
 import {
   CAREER_START,
   about,
+  choice,
   channels,
   contact,
   contactHead,
@@ -112,9 +114,9 @@ export function SectionHead({
   )
 }
 
-const primaryBtn = "inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-4 text-base font-medium text-background transition-opacity hover:opacity-85"
-const ghostBtn = "inline-flex items-center justify-center gap-2 rounded-full border border-border px-8 py-4 text-base font-medium transition-colors hover:border-foreground/25"
-const textLink = "inline-flex items-center gap-2 text-sm font-medium text-brand-600 transition-colors hover:text-brand-800 dark:text-brand-300 dark:hover:text-brand-200"
+const primaryBtn = "group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-4 text-base font-medium text-background transition-[opacity,transform] duration-300 hover:opacity-90 active:scale-[0.98]"
+const ghostBtn = "group inline-flex items-center justify-center gap-2 rounded-full border border-border px-8 py-4 text-base font-medium transition-[border-color,transform] duration-300 hover:border-foreground/30 active:scale-[0.98]"
+const textLink = "group inline-flex items-center gap-2 text-sm font-medium text-brand-600 transition-colors hover:text-brand-800 dark:text-brand-300 dark:hover:text-brand-200"
 
 /* ─── Hero ─────────────────────────────────────────────────────────────────── */
 
@@ -123,31 +125,42 @@ export function Hero({ portrait }: { portrait?: string }) {
   const years = new Date().getFullYear() - CAREER_START
   return (
     <section className="relative overflow-hidden pt-24 md:pt-28">
-      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-10 px-6 pb-16 md:px-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 lg:pb-24">
-        <div className="pt-10 lg:pt-16">
-          <p className="mb-6 text-lg text-muted-foreground">{l(hero.eyebrow)}</p>
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-14 px-6 pb-20 md:px-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:pb-28">
+        <div className="pt-10 lg:pt-12">
+          <p className="mb-6 flex items-center gap-3 text-lg text-muted-foreground">
+            <span className="hidden h-px w-10 bg-foreground/25 sm:block" />
+            {l(hero.eyebrow)}
+          </p>
           <HeroTitle key={l(hero.title)} text={l(hero.title)} className="font-display text-[2.9rem] font-light leading-[1.02] tracking-tight sm:text-6xl lg:text-[5.2rem]" />
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">{l(hero.subtitle)}</p>
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link href="/contact" className={primaryBtn}>
-              {l(hero.primary)}
+              <RollText>{l(hero.primary)}</RollText>
+              <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
             </Link>
-            <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-4 text-base font-medium text-brand-600 transition-colors hover:text-brand-800 dark:text-brand-300 dark:hover:text-brand-200">
-              {l(hero.secondary)} <ArrowRight className="size-4 rtl:-scale-x-100" />
+            <Link href="/projects" className="group inline-flex items-center gap-2 px-6 py-4 text-base font-medium text-brand-600 transition-colors hover:text-brand-800 dark:text-brand-300 dark:hover:text-brand-200">
+              <RollText>{l(hero.secondary)}</RollText>
+              <ArrowRight className="size-4 transition-transform duration-500 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
             </Link>
           </div>
-          <div className="mt-14 flex flex-wrap gap-x-10 gap-y-6">
+          <div className="mt-14 flex flex-wrap gap-x-10 gap-y-6 border-t border-border pt-8">
             {hero.stats.map((s, i) => (
               <div key={s.label.en} className="hero-stagger opacity-0" style={{ animation: `fade-up 0.8s cubic-bezier(0.16,1,0.3,1) ${0.9 + i * 0.1}s forwards` }}>
-                <div className="font-display text-3xl font-light tracking-tight sm:text-4xl" suppressHydrationWarning>
-                  {s.value === "years" ? `${years}+` : s.value}
+                <div className="font-display text-3xl font-light tracking-tight sm:text-4xl">
+                  <CountUp value={s.value === "years" ? years : Number(s.value)} suffix={s.value === "years" ? "+" : ""} delay={0.9 + i * 0.1} />
                 </div>
                 <div className="eyebrow mt-1 !text-[10.5px]">{l(s.label)}</div>
               </div>
             ))}
           </div>
         </div>
-        <HeroVisual portrait={portrait} className="lg:-me-6" />
+        <HeroVisual portrait={portrait} className="lg:-me-2" />
+      </div>
+      <div className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex">
+        <span className="eyebrow !text-[10px]">{l(hero.scroll)}</span>
+        <span className="relative h-10 w-px overflow-hidden bg-foreground/10">
+          <span className="scroll-cue-line absolute inset-x-0 top-0 h-1/2 bg-foreground/60" />
+        </span>
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
     </section>
@@ -323,6 +336,79 @@ export function ServicesSection({ matrix }: { matrix?: string }) {
         })}
       </div>
     </Section>
+  )
+}
+
+/* ─── The choice (cinematic full-bleed band) ──────────────────────────────── */
+
+const CAPSULE = {
+  blue: "linear-gradient(90deg,#16359c 0%,#2f5fe6 55%,#7fa0ff 100%)",
+  red: "linear-gradient(90deg,#7d2216 0%,#c2452f 55%,#f08a6c 100%)",
+} as const
+
+function Capsule({ tone }: { tone: keyof typeof CAPSULE }) {
+  return (
+    <span aria-hidden className="relative inline-block h-3.5 w-7 shrink-0 -rotate-[18deg] rounded-full shadow-[0_6px_14px_-4px_rgb(0_0_0/0.8)]" style={{ background: CAPSULE[tone] }}>
+      <span className="absolute inset-x-1.5 top-[2px] h-[3px] rounded-full bg-white/45" />
+    </span>
+  )
+}
+
+export function ChoiceSection({ matrix }: { matrix?: string }) {
+  const { l, isAr } = useLanguage()
+  if (!matrix) return null
+  return (
+    <section id="choice" className="relative overflow-hidden bg-[#040301] text-white" data-gradient-bar>
+      {/* Photo: full height on the end side for desktop, on top for phones. The photo's own background is this exact black. */}
+      <Parallax className="relative aspect-[4/3] w-full md:absolute md:inset-y-0 md:end-0 md:aspect-auto md:w-[60%]" amount={6}>
+        <Image src={matrix} alt={l(choice.alt)} fill sizes="(min-width: 768px) 60vw, 100vw" className="object-cover object-[50%_35%]" />
+      </Parallax>
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 hidden md:block",
+          isAr
+            ? "bg-[linear-gradient(to_left,#040301_0%,#040301_38%,rgb(4_3_1/0.6)_44%,transparent_52%)]"
+            : "bg-[linear-gradient(to_right,#040301_0%,#040301_38%,rgb(4_3_1/0.6)_44%,transparent_52%)]",
+        )}
+      />
+      <div className="pointer-events-none absolute inset-x-0 top-0 aspect-[4/3] bg-[linear-gradient(to_top,#040301_0%,rgb(4_3_1/0.6)_18%,transparent_42%)] md:hidden" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#040301] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#040301] to-transparent" />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-6 pb-24 md:px-12 md:py-36">
+        <div className="pt-2 md:max-w-[46%] md:pt-0">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/[0.07] px-3 py-1 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/60">{l(choice.tag)}</span>
+          <SectionTitle key={l(choice.title)} className="mt-6 font-display text-4xl font-light leading-[1.05] tracking-tight [--foreground:#f5f4f0] md:text-5xl">
+            <Lines text={l(choice.title)} />
+          </SectionTitle>
+          <Reveal>
+            <p className="mt-6 text-[0.95rem] leading-relaxed text-white/60 md:max-w-[84%]">{l(choice.body)}</p>
+          </Reveal>
+          <div className="mt-10 border-t border-white/10 md:max-w-[84%]">
+            {choice.options.map((o, i) => (
+              <Reveal key={o.tone} delay={0.1 + i * 0.08}>
+                <div className="flex gap-5 border-b border-white/10 py-5">
+                  <span className="pt-1.5">
+                    <Capsule tone={o.tone} />
+                  </span>
+                  <span>
+                    <span className="block text-[0.95rem]">{l(o.label)}</span>
+                    <span className="mt-1 block text-sm leading-relaxed text-white/50">{l(o.text)}</span>
+                  </span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Link
+            href="/contact"
+            className="group mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#f5f4f0] px-7 py-3.5 text-sm font-medium text-[#111] transition-[opacity,transform] duration-300 hover:opacity-90 active:scale-[0.98]"
+          >
+            <RollText>{l(choice.cta)}</RollText>
+            <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -622,10 +708,11 @@ export function CtaBand() {
         <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">{l(cta.description)}</p>
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/contact" className={primaryBtn}>
-            {l(cta.primary)} <ArrowUpRight className="size-4 rtl:-scale-x-100" />
+            <RollText>{l(cta.primary)}</RollText>
+            <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
           </Link>
           <a href={waLink(l(person.waHello))} target="_blank" rel="noopener noreferrer" className={ghostBtn}>
-            <WhatsAppIcon /> {l(cta.secondary)}
+            <WhatsAppIcon /> <RollText>{l(cta.secondary)}</RollText>
           </a>
         </div>
       </div>
